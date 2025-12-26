@@ -4,6 +4,7 @@
 > **版本**: 1.0.0
 > **用途**: PostgreSQL / Supabase 資料庫設計、查詢優化、安全性配置
 > **參考**:
+>
 > - [Supabase Docs](https://supabase.com/docs/guides/database)
 > - [PostgreSQL Docs](https://www.postgresql.org/docs/)
 > - [sql-expert](https://github.com/0xfurai/claude-code-subagents)
@@ -28,7 +29,7 @@
 ### 1.1 資料類型選擇
 
 | 類型 | 用途 | 範例 |
-|------|------|------|
+| :--- | :--- | :--- |
 | `bigint` / `int8` | 大整數（推薦主鍵） | ID、計數器 |
 | `uuid` | 唯一識別碼 | 分散式系統 ID |
 | `text` | 變長字串（無限制） | 描述、內容 |
@@ -590,13 +591,15 @@ const { data, error } = await supabase
 
 ---
 
-## 九、禁止行為
+## ❌ 禁止事項
 
 ```markdown
 ❌ 絕對禁止：
-1. 在前端暴露 service_role key
-2. 不啟用 RLS 的公開資料表
-3. 使用字串拼接構造 SQL
+1. **使用字串拼接構造 SQL** (SQL Injection 風險 - P0 級嚴重漏洞)
+   - 禁止: `const query = "SELECT * FROM users WHERE name = '" + name + "'"`
+   - 強制: 使用參數化查詢或 RPC
+2. 在前端暴露 service_role key
+3. 不啟用 RLS 的公開資料表
 4. 在遷移中直接刪除生產資料
 5. 忽略 NULL 值處理
 6. 使用 SELECT * 查詢大型資料表

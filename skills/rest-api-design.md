@@ -11,7 +11,8 @@
 ## 🎯 觸發條件
 
 ### 關鍵字列表
-```
+
+```text
 REST API、RESTful、API 設計、端點設計、HTTP 方法、
 API 版本控制、分頁設計、API 錯誤處理、HATEOAS、
 資源建模、API 規範、OpenAPI、Swagger、
@@ -19,6 +20,7 @@ FastAPI、Express、Spring Boot API
 ```
 
 ### 使用場景
+
 1. **設計新 API** - 從零開始設計 RESTful API
 2. **重構現有 API** - 優化 API 結構和規範
 3. **API Code Review** - 檢查 API 是否符合最佳實踐
@@ -31,7 +33,7 @@ FastAPI、Express、Spring Boot API
 
 ### REST 成熟度模型 (Richardson Maturity Model)
 
-```
+```text
 Level 3: HATEOAS (超媒體驅動)
    ↑ 響應中包含相關資源連結
 Level 2: HTTP 動詞 (推薦最低標準)
@@ -51,7 +53,7 @@ Level 0: POX (Plain Old XML/JSON)
 ### 命名規則
 
 | 規則 | 正確 ✅ | 錯誤 ❌ |
-|------|---------|---------|
+| :--- | :--- | :--- |
 | 使用名詞 | `/users` | `/getUsers` |
 | 使用複數 | `/products` | `/product` |
 | 小寫 + 連字號 | `/user-profiles` | `/userProfiles` |
@@ -90,7 +92,7 @@ Level 0: POX (Plain Old XML/JSON)
 ### 方法對照表
 
 | 方法 | 用途 | 安全性 | 冪等性 | 請求體 | 成功狀態碼 |
-|------|------|--------|--------|--------|-----------|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | GET | 讀取資源 | ✅ | ✅ | ❌ | 200 |
 | POST | 創建資源 | ❌ | ❌ | ✅ | 201 |
 | PUT | 完整更新 | ❌ | ✅ | ✅ | 200 |
@@ -249,7 +251,7 @@ module.exports = router;
 ### 四種策略比較
 
 | 策略 | 範例 | 優點 | 缺點 | 推薦度 |
-|------|------|------|------|--------|
+| :--- | :--- | :--- | :--- | :--- |
 | **URI 版本** | `/api/v1/users` | 清晰、易緩存 | URL 變更 | ⭐⭐⭐⭐⭐ |
 | Header 版本 | `X-API-Version: 1` | URL 乾淨 | 不易發現 | ⭐⭐⭐ |
 | Content 協商 | `Accept: application/vnd.api.v1+json` | 標準做法 | 複雜 | ⭐⭐⭐ |
@@ -329,7 +331,7 @@ GET /api/v1/users?cursor=eyJpZCI6MTAwfQ&limit=20
 }
 ```
 
-### FastAPI 實作
+### FastAPI 篩選與排序實作
 
 ```python
 from fastapi import Query
@@ -400,7 +402,7 @@ GET /api/v1/users?fields=id,name,email
 GET /api/v1/products?category=electronics&price_min=100&sort=-rating&limit=10
 ```
 
-### FastAPI 實作
+### FastAPI 篩選與排序實作
 
 ```python
 from fastapi import Query
@@ -486,7 +488,7 @@ async def list_products(
 ### HTTP 狀態碼規範
 
 | 狀態碼 | 用途 | 錯誤代碼範例 |
-|--------|------|-------------|
+| :--- | :--- | :--- |
 | 400 | 請求參數錯誤 | VALIDATION_ERROR, INVALID_JSON |
 | 401 | 未認證 | UNAUTHORIZED, TOKEN_EXPIRED |
 | 403 | 無權限 | FORBIDDEN, INSUFFICIENT_PERMISSIONS |
@@ -659,7 +661,7 @@ class UserCreate(BaseModel):
 
     @validator("name")
     def validate_name(cls, v):
-        if not re.match(r"^[a-zA-Z\s]+$", v):
+        if not re.match(r"^[a-zA-Z\\s]+$", v):
             raise ValueError("Name can only contain letters and spaces")
         return v.strip()
 
@@ -670,6 +672,23 @@ class UserCreate(BaseModel):
         if not re.search(r"[0-9]", v):
             raise ValueError("Password must contain digit")
         return v
+```
+
+### 傳輸與數據保護
+
+```markdown
+1. **強制 HTTPS (TLS 1.3)**
+   - 所有 API 通訊必須加密
+   - 啟用 HSTS (Strict-Transport-Security)
+
+2. **敏感數據保護**
+   - URL 中禁止包含 PII (如 `/users/email@example.com` ❌)
+   - 使用 UUID 代替順序 ID 防止枚舉
+   - 響應中過濾敏感欄位 (密碼 hash、內部 ID)
+
+3. **授權控制 (RBAC)**
+   - 驗證 Token 不等於授權訪問
+   - 每個端點必須檢查 `scope` 或 `role`
 ```
 
 ---
@@ -747,6 +766,16 @@ async def get_user(user_id: int):
 
 ❌ 不要返回空 body 給錯誤:
    返回空 body → 返回結構化錯誤訊息
+
+### 4. 安全隱患
+
+```markdown
+❌ 不要將敏感數據放在 URL 參數中:
+   /api/v1/login?token=xyz → 使用 Header: Authorization
+   /api/v1/users?ssn=123 → 使用 POST body
+
+❌ 不要在響應中暴露 Stack Trace:
+   生產環境必須隱藏詳細錯誤信息
 ```
 
 ---
@@ -754,12 +783,14 @@ async def get_user(user_id: int):
 ## ✅ 自我檢查清單
 
 ### 設計階段
+
 - [ ] 資源使用名詞複數
 - [ ] URL 使用小寫 + 連字號
 - [ ] 遵循 REST Level 2+
 - [ ] 版本控制策略確定
 
 ### 實作階段
+
 - [ ] HTTP 方法使用正確
 - [ ] 狀態碼返回正確
 - [ ] 錯誤格式標準化
@@ -767,12 +798,14 @@ async def get_user(user_id: int):
 - [ ] 過濾/排序支援
 
 ### 安全階段
+
 - [ ] 認證機制實作
 - [ ] 輸入驗證完成
 - [ ] Rate Limiting 設置
 - [ ] CORS 配置正確
 
 ### 文檔階段
+
 - [ ] OpenAPI 規範完整
 - [ ] 範例請求/響應
 - [ ] 錯誤代碼文檔
@@ -803,16 +836,19 @@ async def get_user(user_id: int):
 ## 📚 參考資源
 
 ### 來源
+
 - [luxor-claude-marketplace/rest-api-design-patterns](https://github.com/manutej/luxor-claude-marketplace)
 - [Microsoft REST API Guidelines](https://github.com/microsoft/api-guidelines)
 - [Google API Design Guide](https://cloud.google.com/apis/design)
 
 ### 框架文檔
+
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [Express.js](https://expressjs.com/)
 - [Spring Boot](https://spring.io/projects/spring-boot)
 
 ### 相關技能
+
 - **crud-development** - CRUD 開發規範
 - **mcp-builder** - MCP/API 整合
 

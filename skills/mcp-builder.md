@@ -11,7 +11,8 @@
 ## 🎯 觸發條件
 
 ### 關鍵字列表
-```
+
+```text
 MCP、模型上下文協議、Model Context Protocol、
 MCP 伺服器、MCP Server、外部 API 整合、
 FastMCP、MCP SDK、LLM 工具開發、
@@ -19,6 +20,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 ```
 
 ### 使用場景
+
 1. **LLM 外部整合** - 需要 Claude 與外部系統（API、資料庫）互動
 2. **工具開發** - 建立可重複使用的結構化工具集
 3. **企業級整合** - 整合公司內部 API 到 Claude Code
@@ -31,6 +33,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 ### 什麼是 MCP？
 
 **Model Context Protocol (MCP)** 是 Anthropic 提供的標準協議，用於：
+
 - 讓 LLM 調用外部工具
 - 提供結構化的輸入/輸出格式
 - 實現可發現、可驗證的工具集
@@ -38,7 +41,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 ### 支援語言
 
 | 語言 | 框架 | 推薦場景 |
-|------|------|---------|
+| :--- | :--- | :--- |
 | **Python** | FastMCP | 快速開發、資料處理、科學計算 |
 | **TypeScript/Node.js** | MCP SDK | 前端整合、全棧應用、NPM 生態 |
 
@@ -48,7 +51,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 
 ### Phase 1: 深度研究 🔬
 
-```
+```text
 1.1 理解 MCP 設計原理
 ├─ 閱讀官方 MCP 規範文檔
 ├─ 理解 Tool、Resource、Prompt 三大概念
@@ -67,7 +70,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 
 ### Phase 2: 實作開發 💻
 
-```
+```text
 2.1 專案初始化
 ├─ 建立目錄結構
 ├─ 安裝依賴套件
@@ -86,7 +89,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 
 ### Phase 3: 審查測試 ✅
 
-```
+```text
 3.1 程式碼品質
 ├─ Type hints 完整
 ├─ Docstrings 清晰
@@ -105,7 +108,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 
 ### Phase 4: 評估創建 📊
 
-```
+```text
 4.1 設計驗證問題
 ├─ 針對每個工具設計測試問題
 ├─ 涵蓋正常和邊界情況
@@ -123,7 +126,7 @@ FastMCP、MCP SDK、LLM 工具開發、
 
 ### Python (FastMCP)
 
-```
+```text
 mcp-server-name/
 ├── src/
 │   ├── __init__.py
@@ -145,7 +148,7 @@ mcp-server-name/
 
 ### TypeScript (MCP SDK)
 
-```
+```text
 mcp-server-name/
 ├── src/
 │   ├── index.ts            # MCP 伺服器主入口
@@ -405,11 +408,31 @@ main().catch(console.error);
 
 ---
 
+## 🔐 安全與隱私 (Security & Privacy)
+
+### 1. 憑證管理 (Secrets Management)
+
+- **開發環境**: 強制使用 `.env` 文件，並將其加入 `.gitignore`。
+- **生產環境**: 使用平台提供的 Secret Manager (如 AWS Secrets Manager, GitHub Actions Secrets)。
+- **禁止硬編碼**: 絕對不可以在代碼中直接寫入 API Key、Token 或密碼。
+
+### 2. 數據清洗 (Data Sanitization)
+
+- **日誌脫敏**: 在輸出 Log 前，必須過濾掉 PII (個人識別資訊) 和敏感憑證。
+- **錯誤處理**: 返回給客戶端的錯誤訊息不應包含 Stack Trace 或數資料庫結構。
+
+### 3. 最小權限原則 (Least Privilege)
+
+- **Scope 控制**: MCP 服務應僅請求執行任務所需的最小權限 scopes。
+- **唯讀優先**: 如果不需要寫入，應使用唯讀 API Token。
+
+---
+
 ## 📝 設計原則
 
 ### 1. 工具命名規範
 
-```
+```text
 ✅ 正確示範:
 weather_get_current      # 一致前綴 + 動作導向
 weather_get_forecast
@@ -422,6 +445,7 @@ getWeather              # 太通用
 ```
 
 **命名規則**:
+
 - 使用 `snake_case`
 - 格式: `{domain}_{action}_{target}`
 - 範例: `github_list_repos`, `slack_send_message`
@@ -467,9 +491,9 @@ return {"temp": 25.5, "hum": 60}
 
 ### 1. 安全禁止
 
-- ❌ **硬編碼 API 金鑰** - 必須使用環境變數
-- ❌ **暴露敏感資訊** - 錯誤訊息不含內部細節
-- ❌ **跳過輸入驗證** - 所有輸入必須驗證
+- ❌ **硬編碼 API 金鑰** - 必須使用環境變數或 Secret Manager
+- ❌ **暴露敏感資訊** - 錯誤訊息與日誌嚴禁包含 PII 或 Token
+- ❌ **跳過輸入驗證** - 所有輸入必須驗證，防範 Injection 攻擊
 
 ### 2. 設計禁止
 
@@ -488,26 +512,31 @@ return {"temp": 25.5, "hum": 60}
 ## ✅ 自我檢查清單
 
 ### 專案結構
+
 - [ ] 目錄結構符合規範
 - [ ] 環境變數使用 `.env` 管理
 - [ ] 有 `.env.example` 範本
 
 ### 工具定義
+
 - [ ] 工具命名遵循 `{domain}_{action}_{target}` 格式
 - [ ] 每個工具有清晰的 description
 - [ ] Input schema 定義完整（類型、必填、預設值）
 
 ### 錯誤處理
+
 - [ ] 所有 API 調用有 try/catch
 - [ ] 錯誤回應包含 suggestion
 - [ ] 不洩漏敏感資訊
 
 ### 回應格式
+
 - [ ] 結構化資料 + 人類可讀摘要
 - [ ] 格式一致（所有工具相同結構）
 - [ ] 包含必要的 metadata（時間戳、來源）
 
 ### 測試驗證
+
 - [ ] 單元測試覆蓋核心邏輯
 - [ ] 整合測試驗證 API 調用
 - [ ] 使用 `mcp inspect` 驗證工具定義
@@ -536,7 +565,7 @@ return {"temp": 25.5, "hum": 60}
 
 ### 使用方式
 
-```
+```text
 用戶: "台北現在天氣如何？"
 
 Claude: [調用 weather_get_current 工具]
@@ -569,11 +598,13 @@ Claude: [調用 weather_get_current 工具]
 ## 📚 參考資源
 
 ### 官方文檔
+
 - [MCP 官方規範](https://modelcontextprotocol.io)
 - [FastMCP 文檔](https://github.com/jlowin/fastmcp)
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
 
 ### 範例伺服器
+
 - [Anthropic 官方 MCP 伺服器](https://github.com/modelcontextprotocol/servers)
 - [社群 MCP 伺服器集合](https://github.com/punkpeye/awesome-mcp-servers)
 
