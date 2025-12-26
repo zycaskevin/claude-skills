@@ -1,65 +1,65 @@
-# Security Remediation Plan: Claude Skills Ecosystem
+# 安全修復計畫：Claude Skills 生態系統
 
-**Status**: ✅ Completed
-**Date**: 2025-12-28
+**狀態**: ✅ 已完成
+**日期**: 2025-12-28
 
-## 🔍 Scope Validation
+## 🔍 範圍驗證
 
-The following mobile development skills have been secured.
+以下移動開發技能文件已經完成安全加固。
 
-| Skill File | Status | Action |
+| 技能文件 | 狀態 | 執行動作 |
 |------------|--------|--------|
-| `database-ops.md` | ✅ Protected | **Fixed SQL Injection Risks (P0)** - Mandated Parameterized Queries |
-| `rest-api-design.md` | ✅ Protected | **Added Security Specs (P0)** - RBAC, HTTPS, PII Protection |
-| `mcp-builder.md` | ✅ Protected | **Added Secret Management (P1)** - Environment Variables mandated |
-| `ios-development.md` | ✅ Protected | **Fixed Keychain Access (P0)** - `SecAccessControl` implemented |
-| `android-development.md` | ✅ Protected | **Added Obfuscation (P1)** - ProGuard/R8 & Network Security Config |
-| `flutter-development.md` | ✅ Protected | **Added Secure Storage (P1)** - `flutter_secure_storage` |
-| `react-native-development.md`| ✅ Protected | **Added Secure Storage (P1)** - `react-native-keychain` |
+| `database-ops.md` | ✅ 受保護 | **修復 SQL 注入風險 (P0)** - 強制使用參數化查詢 |
+| `rest-api-design.md` | ✅ 受保護 | **新增安全規範 (P0)** - RBAC, HTTPS, PII 保護 |
+| `mcp-builder.md` | ✅ 受保護 | **新增密鑰管理 (P1)** - 強制使用環境變數 |
+| `ios-development.md` | ✅ 受保護 | **修復 Keychain 存取 (P0)** - 實作 `SecAccessControl` |
+| `android-development.md` | ✅ 受保護 | **新增混淆 (P1)** - ProGuard/R8 & 網路安全設定 |
+| `flutter-development.md` | ✅ 受保護 | **新增安全存儲 (P1)** - `flutter_secure_storage` |
+| `react-native-development.md`| ✅ 受保護 | **新增安全存儲 (P1)** - `react-native-keychain` |
 
 ---
 
-## 🛠️ Remediation Action Plan Execution
+## 🛠️ 修復行動計畫執行
 
-### 🔴 Priority 0: Critical Security Fixes
+### 🔴 優先級 0: 關鍵安全修復
 
-#### 1. `database-ops.md` - SQL Injection Prevention
+#### 1. `database-ops.md` - SQL 注入防護
 
-* ✅ **Completed**: Added strict prohibition of string concatenation ("❌ 禁止事項" section) and P0 warning.
+* ✅ **已完成**: 於「❌ 禁止事項」區塊中嚴格禁止 SQL 字串拼接，並列為 P0 警告。
 
-#### 2. `rest-api-design.md` - API Security Standards
+#### 2. `rest-api-design.md` - API 安全標準
 
-* ✅ **Completed**: Added "傳輸與數據保護" section (HTTPS, PII, RBAC). Updated "禁止事項" to ban sensitive data in URLs.
+* ✅ **已完成**: 新增「傳輸與數據保護」區塊 (HTTPS, PII, RBAC)。更新「禁止事項」以禁止在 URL 中包含敏感數據。
 
-#### 3. `ios-development.md` - Keychain Security
+#### 3. `ios-development.md` - Keychain 安全性
 
-* ✅ **Completed**: Enhanced `KeychainService` example with `SecAccessControl` (Biometrics).
+* ✅ **已完成**: 優化 `KeychainService` 範例，加入 `SecAccessControl` (生物辨識)。
 
-### 🟡 Priority 1: Standardization & Best Practices
+### 🟡 優先級 1: 標準化與最佳實踐
 
-#### 1. `mcp-builder.md` - Secrets Management
+#### 1. `mcp-builder.md` - 密鑰管理
 
-* ✅ **Completed**: Added "Safety & Privacy" section. Mandated usage of environment variables.
+* ✅ **已完成**: 新增「安全與隱私」區塊。強制使用環境變數。
 
-#### 2. Mobile Security Standard
+#### 2. 行動端安全標準
 
-* ✅ **Android**: Added ProGuard/R8 and Network Security Config.
-* ✅ **Flutter**: Added `flutter_secure_storage` implementation.
-* ✅ **React Native**: Added `react-native-keychain` implementation.
+* ✅ **Android**: 新增 ProGuard/R8 與 Network Security Config。
+* ✅ **Flutter**: 新增 `flutter_secure_storage` 實作。
+* ✅ **React Native**: 新增 `react-native-keychain` 實作。
 
-#### 3. Global "Forbidden" Section
+#### 3. 全域「禁止事項」區塊
 
-* ✅ **Completed**: All modified skills now have a standardized `## ❌ 禁止事項` section covering:
-  * Hardcoded secrets (API Keys, Tokens)
-  * Sensitive data logging
-  * Insecure storage (UserDefaults, SharedPreferences)
-  * Cleartext traffic (HTTP)
+* ✅ **已完成**: 所有修改過的技能文件現在都包含標準化的 `## ❌ 禁止事項` 區塊，涵蓋：
+  * 硬編碼密鑰 (API Keys, Tokens)
+  * 敏感數據日誌記錄
+  * 不安全的存儲 (UserDefaults, SharedPreferences)
+  * 明文傳輸 (HTTP)
 
 ---
 
-## 📅 Status Verification
+## 📅 狀態驗證
 
-* [x] **P0 Fixes**: Database, API, iOS - **VERIFIED**
-* [x] **P1 Fixes**: MCP, Android, Flutter, RN - **VERIFIED**
-* [x] **Global Standardization**: Forbidden sections applied - **VERIFIED**
-* [x] **Linting**: Markdown errors resolved - **VERIFIED**
+* [x] **P0 修復**: Database, API, iOS - **已驗證**
+* [x] **P1 修復**: MCP, Android, Flutter, RN - **已驗證**
+* [x] **全域標準化**: 禁止事項區塊已套用 - **已驗證**
+* [x] **Linting**: Markdown 錯誤已解決 - **已驗證**
