@@ -1,0 +1,123 @@
+# ============================================
+# Claude Skills Export - .gitignore
+# ============================================
+
+# -----------------
+# Operating System
+# -----------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# -----------------
+# IDE & Editors
+# -----------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# -----------------
+# Node.js
+# -----------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# -----------------
+# Environment & Secrets
+# -----------------
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+*.pem
+*.key
+secrets/
+credentials/
+
+# -----------------
+# Build Output
+# -----------------
+dist/
+build/
+out/
+*.log
+
+# -----------------
+# Testing
+# -----------------
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# -----------------
+# Temporary Files
+# -----------------
+*.tmp
+*.temp
+*.bak
+*.orig
+nul
+temp/
+tmp/
+
+# -----------------
+# Claude Code Specific
+# -----------------
+# Local settings (not for sharing)
+.claude/settings.local.json
+
+# Session files
+.claude/sessions/
+.claude/cache/
+
+# -----------------
+# Documentation Build
+# -----------------
+.docusaurus/
+_site/
+.jekyll-cache/
+
+# -----------------
+# Archives
+# -----------------
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# -----------------
+# Logs
+# -----------------
+logs/
+*.log
+npm-debug.log*
+
+# -----------------
+# Personal Notes
+# -----------------
+NOTES.md
+TODO.md
+SCRATCH.md
+personal/
+private/

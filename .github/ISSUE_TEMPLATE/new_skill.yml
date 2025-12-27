@@ -1,0 +1,106 @@
+name: New Skill Proposal
+description: Propose a new skill for the library
+title: "[Skill]: "
+labels: ["new-skill", "discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new skill! Please provide details about your skill idea.
+
+  - type: input
+    id: skill-id
+    attributes:
+      label: Skill ID
+      description: A unique identifier for the skill (lowercase, hyphenated)
+      placeholder: e.g., my-new-skill
+    validations:
+      required: true
+
+  - type: input
+    id: skill-name
+    attributes:
+      label: Skill Name
+      description: Human-readable name for the skill
+      placeholder: e.g., My New Skill
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: What problem does this skill solve? What is its main use case?
+      placeholder: Describe the purpose of this skill...
+    validations:
+      required: true
+
+  - type: textarea
+    id: trigger-keywords
+    attributes:
+      label: Trigger Keywords
+      description: What keywords should activate this skill?
+      placeholder: |
+        - keyword1
+        - keyword2
+        - keyword3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category does this skill belong to?
+      options:
+        - Backend Development
+        - Frontend Development
+        - Integration/API
+        - DevOps/CI-CD
+        - Testing/Quality
+        - Documentation
+        - Mobile Development
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: core-standards
+    attributes:
+      label: Core Standards
+      description: What are the main rules or patterns this skill should enforce?
+      placeholder: |
+        1. Rule 1
+        2. Rule 2
+        3. Rule 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: prohibited-actions
+    attributes:
+      label: Prohibited Actions
+      description: What should this skill prevent or warn against?
+      placeholder: |
+        - Don't do X
+        - Avoid Y
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Any documentation, examples, or sources that inspired this skill?
+      placeholder: Links to documentation, GitHub repos, articles...
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you willing to contribute this skill?
+      options:
+        - label: I would be willing to submit a PR for this skill
+        - label: I have read the skill-creator.md guidelines

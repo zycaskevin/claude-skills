@@ -24,6 +24,14 @@ const instructions = `## 🌐 語言提醒：請使用繁體中文回應
 - systematic-debugging: 系統性除錯，四階段根因分析、科學化除錯（詳見 .claude/skills/systematic-debugging.md）
 - verification-before-completion: 完成前驗證，強制驗證步驟、防止假完成（詳見 .claude/skills/verification-before-completion.md）
 - requesting-code-review: 請求Code Review，預審查清單、嚴重度分類（詳見 .claude/skills/requesting-code-review.md）
+- code-review-standards: Code Review 標準，統一審查規範、嚴重度定義、溝通態度（詳見 .claude/skills/code-review-standards.md）
+- executing-plans: 執行計畫，批次執行任務、人工檢查點、驗證驅動開發（詳見 .claude/skills/executing-plans.md）
+- dispatching-parallel-agents: 並行 Agent 調度，Subagent 併發處理、獨立問題分配（詳見 .claude/skills/dispatching-parallel-agents.md）
+- ios-development: iOS 開發，SwiftUI/UIKit、Xcode 整合、App Store 發布（詳見 .claude/skills/ios-development.md）
+- android-development: Android 開發，Kotlin/Jetpack Compose、Material Design、Play Store 發布（詳見 .claude/skills/android-development.md）
+- flutter-development: Flutter 開發，Dart 語言、跨平台 UI、Material/Cupertino 設計（詳見 .claude/skills/flutter-development.md）
+- react-native-development: React Native 開發，Expo、原生模組整合、跨平台 App（詳見 .claude/skills/react-native-development.md）
+- cicd-pipeline: CI/CD 流水線，GitHub Actions、自動化構建/測試/部署（詳見 .claude/skills/cicd-pipeline.md）
 
 ### 步驟 2 - 激活
 

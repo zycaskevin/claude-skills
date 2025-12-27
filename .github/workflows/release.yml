@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog
+        id: changelog
+        run: |
+          # Extract changelog for this version
+          VERSION=${{ steps.version.outputs.VERSION }}
+          VERSION_NUM=${VERSION#v}
+
+          # Get section from CHANGELOG.md
+          CHANGELOG=$(awk "/## \[${VERSION_NUM}\]/{flag=1; next} /## \[/{flag=0} flag" CHANGELOG.md)
+
+          # Save to file for multiline output
+          echo "$CHANGELOG" > release_notes.md
+
+          echo "Extracted changelog for version $VERSION_NUM"
+
+      - name: Create Release Archive
+        run: |
+          # Create release archive
+          mkdir -p release
+
+          # Copy essential files
+          cp -r hooks release/
+          cp -r skills release/
+          cp README.md release/
+          cp CONTRIBUTING.md release/
+          cp CHANGELOG.md release/
+          cp SECURITY.md release/
+          cp CODE_OF_CONDUCT.md release/
+          cp LICENSE release/
+          cp settings.json.example release/
+
+          # Create archive
+          cd release
+          zip -r ../claude-skills-${{ steps.version.outputs.VERSION }}.zip .
+          tar -czvf ../claude-skills-${{ steps.version.outputs.VERSION }}.tar.gz .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Claude Skills ${{ steps.version.outputs.VERSION }}
+          body_path: release_notes.md
+          files: |
+            claude-skills-${{ steps.version.outputs.VERSION }}.zip
+            claude-skills-${{ steps.version.outputs.VERSION }}.tar.gz
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "🎉 Release ${{ steps.version.outputs.VERSION }} created successfully!"
+          echo ""
+          echo "📦 Assets:"
+          echo "   - claude-skills-${{ steps.version.outputs.VERSION }}.zip"
+          echo "   - claude-skills-${{ steps.version.outputs.VERSION }}.tar.gz"

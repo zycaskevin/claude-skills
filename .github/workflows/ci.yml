@@ -1,0 +1,189 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Project Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate Hooks
+        run: |
+          echo "🔍 Validating hooks..."
+
+          # Check required hook files exist
+          for hook in pre-tool-use session-start skill-forced-eval stop; do
+            if [ -f "hooks/${hook}.js" ]; then
+              echo "✅ hooks/${hook}.js exists"
+            else
+              echo "❌ Missing hooks/${hook}.js"
+              exit 1
+            fi
+          done
+
+          # Validate JavaScript syntax
+          for file in hooks/*.js; do
+            if node --check "$file" 2>/dev/null; then
+              echo "✅ $file - syntax OK"
+            else
+              echo "❌ $file - syntax error"
+              exit 1
+            fi
+          done
+
+      - name: Validate Skills
+        run: |
+          echo "🔍 Validating skills..."
+
+          # Count skill files
+          SKILL_COUNT=$(find skills -maxdepth 1 -name "*.md" -type f | wc -l)
+          echo "📚 Found $SKILL_COUNT skill files"
+
+          # Check minimum skill count
+          if [ "$SKILL_COUNT" -lt 20 ]; then
+            echo "⚠️ Warning: Expected at least 20 skills, found $SKILL_COUNT"
+          fi
+
+          # Validate skill structure (check for required sections)
+          for skill in skills/*.md; do
+            if [ -f "$skill" ] && [ "$(basename $skill)" != "README.md" ]; then
+              BASENAME=$(basename "$skill")
+
+              # Check for trigger conditions or core sections
+              if grep -q -E "(Trigger|觸發|Core|核心|Prohibited|禁止)" "$skill"; then
+                echo "✅ $BASENAME - structure OK"
+              else
+                echo "⚠️ $BASENAME - missing recommended sections"
+              fi
+            fi
+          done
+
+      - name: Validate Documentation
+        run: |
+          echo "🔍 Validating documentation..."
+
+          # Check required files
+          REQUIRED_FILES=("README.md" "CONTRIBUTING.md" "CHANGELOG.md" "SECURITY.md" "CODE_OF_CONDUCT.md" "LICENSE")
+
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ Missing $file"
+              exit 1
+            fi
+          done
+
+      - name: Check for Sensitive Data
+        run: |
+          echo "🔍 Checking for sensitive data..."
+
+          # Patterns that might indicate real secrets
+          SENSITIVE_PATTERNS=(
+            "sk-[a-zA-Z0-9]{20,}"
+            "ghp_[a-zA-Z0-9]{36}"
+            "AKIA[A-Z0-9]{16}"
+            "password\s*=\s*['\"][^'\"]+['\"]"
+          )
+
+          FOUND_ISSUES=0
+
+          for pattern in "${SENSITIVE_PATTERNS[@]}"; do
+            if grep -rE "$pattern" --include="*.md" --include="*.js" --include="*.json" . 2>/dev/null | grep -v "your-api-key" | grep -v "example" | grep -v "placeholder"; then
+              echo "⚠️ Potential sensitive data found matching: $pattern"
+              FOUND_ISSUES=$((FOUND_ISSUES + 1))
+            fi
+          done
+
+          if [ $FOUND_ISSUES -eq 0 ]; then
+            echo "✅ No sensitive data detected"
+          else
+            echo "⚠️ Please review the above matches for real secrets"
+          fi
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "============================================"
+          echo "📊 Validation Summary"
+          echo "============================================"
+          echo "✅ All validations passed!"
+          echo ""
+          echo "📁 Project Structure:"
+          echo "   - Hooks: $(ls hooks/*.js 2>/dev/null | wc -l) files"
+          echo "   - Skills: $(find skills -maxdepth 1 -name '*.md' -type f | wc -l) files"
+          echo "   - References: $(ls skills/references/*.md 2>/dev/null | wc -l) files"
+          echo ""
+          echo "🎉 Ready for deployment!"
+
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Lint Markdown files
+        run: |
+          # Create config to ignore some rules
+          cat > .markdownlint.json << 'EOF'
+          {
+            "MD013": false,
+            "MD033": false,
+            "MD041": false,
+            "MD024": false
+          }
+          EOF
+
+          # Run linter (non-blocking)
+          markdownlint '**/*.md' --ignore node_modules || echo "⚠️ Some markdown issues found (non-blocking)"
+
+  security-check:
+    name: Security Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run security patterns check
+        run: |
+          echo "🔐 Running security checks..."
+
+          # Check pre-tool-use.js blocks dangerous commands
+          if grep -q "rm -rf /" hooks/pre-tool-use.js; then
+            echo "✅ Dangerous command blocking configured"
+          else
+            echo "⚠️ Warning: rm -rf / blocking not found"
+          fi
+
+          # Check for fork bomb protection
+          if grep -q ":\(\)" hooks/pre-tool-use.js; then
+            echo "✅ Fork bomb protection configured"
+          else
+            echo "⚠️ Warning: Fork bomb protection not found"
+          fi
+
+          echo "✅ Security check completed"
