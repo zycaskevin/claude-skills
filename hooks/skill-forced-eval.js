@@ -32,6 +32,10 @@ const instructions = `## 🌐 語言提醒：請使用繁體中文回應
 - flutter-development: Flutter 開發，Dart 語言、跨平台 UI、Material/Cupertino 設計（詳見 .claude/skills/flutter-development.md）
 - react-native-development: React Native 開發，Expo、原生模組整合、跨平台 App（詳見 .claude/skills/react-native-development.md）
 - cicd-pipeline: CI/CD 流水線，GitHub Actions、自動化構建/測試/部署（詳見 .claude/skills/cicd-pipeline.md）
+- error-handler: 異常處理規範，統一錯誤碼、全局異常處理、日誌脫敏（詳見 .claude/skills/error-handler.md）
+- security-guard: 安全防護規範，OWASP Top 10、XSS/SQL注入防護、認證安全（詳見 .claude/skills/security-guard.md）
+- file-storage: 文件存儲規範，雲端存儲整合、預簽名URL、分片上傳（詳見 .claude/skills/file-storage.md）
+- payment-integration: 支付整合規範，Stripe/PayPal、訂單狀態機、Webhook安全（詳見 .claude/skills/payment-integration.md）
 
 ### 步驟 2 - 激活
 

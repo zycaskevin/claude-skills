@@ -50,6 +50,15 @@
 | **systematic-debugging** | 系統性除錯 | 四階段根因分析、科學化除錯（⭐⭐⭐⭐⭐ 強烈推薦） | ✅ 已完成 | [查看](systematic-debugging.md) |
 | **verification-before-completion** | 完成前驗證 | 強制驗證步驟、防止假完成（⭐⭐⭐⭐⭐ 強烈推薦） | ✅ 已完成 | [查看](verification-before-completion.md) |
 | **requesting-code-review** | 請求 Code Review | 預審查清單、嚴重度分類、規格驗證（⭐⭐⭐⭐ 推薦） | ✅ 已完成 | [查看](requesting-code-review.md) |
+| **error-handler** | 異常處理規範 | 統一錯誤碼、全局異常處理、日誌脫敏（⭐⭐⭐⭐⭐ 新增） | ✅ 已完成 | [查看](error-handler.md) |
+| **security-guard** | 安全防護規範 | OWASP Top 10、XSS/SQL注入防護、認證安全（⭐⭐⭐⭐⭐ 新增） | ✅ 已完成 | [查看](security-guard.md) |
+
+### 💳 業務整合
+
+| 技能 ID | 名稱 | 說明 | 狀態 | 文檔 |
+|---------|------|------|------|------|
+| **file-storage** | 文件存儲規範 | 雲端存儲整合、預簽名URL、分片上傳（⭐⭐⭐⭐⭐ 新增） | ✅ 已完成 | [查看](file-storage.md) |
+| **payment-integration** | 支付整合規範 | Stripe/PayPal、訂單狀態機、Webhook安全（⭐⭐⭐⭐⭐ 新增） | ✅ 已完成 | [查看](payment-integration.md) |
 
 ---
 
@@ -677,10 +686,13 @@ Vitest、Jest、Playwright、Coverage
 | 前端開發 | 2 | 0 | 2 | 4 |
 | 整合開發 | 2 | 0 | 0 | 2 |
 | 開發工具 | 5 | 0 | 0 | 5 |
-| 品質保證 | 3 | 0 | 0 | 3 |
-| **總計** | **16** | **0** | **2** | **18** |
+| 品質保證 | 5 | 0 | 0 | 5 |
+| 業務整合 | 2 | 0 | 0 | 2 |
+| 行動開發 | 4 | 0 | 0 | 4 |
+| DevOps | 1 | 0 | 0 | 1 |
+| **總計** | **28** | **0** | **2** | **30** |
 
-**完成度**: 88.9% (16/18)
+**完成度**: 93.3% (28/30)
 
 ---
 
