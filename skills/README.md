@@ -49,7 +49,7 @@
 |---------|------|------|------|------|
 | **systematic-debugging** | 系統性除錯 | 四階段根因分析、科學化除錯（⭐⭐⭐⭐⭐ 強烈推薦） | ✅ 已完成 | [查看](systematic-debugging.md) |
 | **verification-before-completion** | 完成前驗證 | 強制驗證步驟、防止假完成（⭐⭐⭐⭐⭐ 強烈推薦） | ✅ 已完成 | [查看](verification-before-completion.md) |
-| **requesting-code-review** | 請求 Code Review | 預審查清單、嚴重度分類、規格驗證（⭐⭐⭐⭐ 推薦） | ✅ 已完成 | [查看](requesting-code-review.md) |
+| **code-review-standards** | Code Review 標準 | 統一審查規範、嚴重度定義、請求與接收審查流程（⭐⭐⭐⭐ 推薦） | ✅ 已完成 | [查看](code-review-standards.md) |
 | **error-handler** | 異常處理規範 | 統一錯誤碼、全局異常處理、日誌脫敏（⭐⭐⭐⭐⭐ 新增） | ✅ 已完成 | [查看](error-handler.md) |
 | **security-guard** | 安全防護規範 | OWASP Top 10、XSS/SQL注入防護、認證安全（⭐⭐⭐⭐⭐ 新增） | ✅ 已完成 | [查看](security-guard.md) |
 
@@ -686,13 +686,13 @@ Vitest、Jest、Playwright、Coverage
 | 前端開發 | 2 | 0 | 2 | 4 |
 | 整合開發 | 2 | 0 | 0 | 2 |
 | 開發工具 | 5 | 0 | 0 | 5 |
-| 品質保證 | 5 | 0 | 0 | 5 |
+| 品質保證 | 4 | 0 | 0 | 4 |
 | 業務整合 | 2 | 0 | 0 | 2 |
 | 行動開發 | 4 | 0 | 0 | 4 |
 | DevOps | 1 | 0 | 0 | 1 |
-| **總計** | **28** | **0** | **2** | **30** |
+| **總計** | **27** | **0** | **2** | **29** |
 
-**完成度**: 93.3% (28/30)
+**完成度**: 93.1% (27/29)
 
 ---
 
@@ -782,6 +782,6 @@ Hook 評估 → crud-development: 是
 
 ---
 
-**版本**: v1.0
+**版本**: v1.1
 **維護者**: Claude Code + zycaskevin
-**最後更新**: 2025-12-26
+**最後更新**: 2025-12-27
